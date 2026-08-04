@@ -28,6 +28,45 @@ MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDsRgJCGHNfnT8LTClG+RdwARit5x
 dtDq0GWn+oiznF3Y/iVvOY8qynp3hNAlCH2OVU7HdWdOvGQY68pVqNPPyg==
 -----END PUBLIC KEY-----";
 
+const RSA_PRIVATE_PEM: &str = "-----BEGIN PRIVATE KEY-----
+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCcKwu+riUEE2Lr
+pk3YDWMFBL4hITGv+gzZ9hS4gni8casan3dFRNhdE6+KzBcEYM1yR4llGuvr8+zc
+Kcu70GloY9Pls+AEbYsyxQjWiV3IxkLf6oOIooPsd0dbJPFwzFzKOmA5qYvCeLzp
+xIEUv0SnIjVzNxbPB0RLMgFpvDsyoTXQJgqqs0A2EvrmIpXkLqEZU+stQJVy9Ufn
+byfaH/FiZtuTy92OinYptwd0kDa7xxhvE5RAg8FnV6EwI13QTPQFTss3k1+W2oWS
+dNf8YksGovoz3Vl/nmpE/omKPZdhcTko9+nA/7wkrXUE7QwMQPT7WZ8hwJnw9yfl
+l1wUwesfAgMBAAECggEAQwE5JdQkL659t+v/5F5CCQoy5ZYPcpjP4MjztQLN+NSw
+fFjFXOQgDTeADwZoLcm2/HxzF/1IElHzY7dPIcNXJqIGbb0StfOmUN83Xo1LvvRK
+BzbgvsQz5EZ9SD7+lM4qVd5cIQF85LDXJVnZpGQ4eZl0431UfPl6NOU8s/g+Ugcr
+M/oE5Z7z82Ktx1NZ06qy0A9IhHqaoK1bR23Ih5LqqYr6K6eNpsFNeAa+cYDjQYLP
+1nt7XoNsfTJOgHoXpsOqV+C4B+gKo0UB3tNg2Vk1ebmbGT5ZlZof9v19K7XP6zb3
+HncHK8l+Ffc/cP0GirsupPl0UqzsbsxubMuLOsoxWQKBgQDXsVwx4TZ+77YKeS6P
+7z/riVDbGFJatgxxNi77o6a1tkoJrPHlThuEB5+rzKdHj7qIIeIuQ+FwhlKcDjqX
+XqpZqwCCJV06M37/lQ+nYyZmOkvNYtnZ0tbakDxQYgwVwD9ps3Xd9LpEsQA/VrV+
+aiSzCJCv5LTJJ9JeQNNzidIWNQKBgQC5Wg33IBsP5TTvGKpqKohyZ0ByawJk6jru
+aSLSPf+naCToM4LSZyK28aoMlX+ORdcuyxLF+NuSbrNScBl7NVgxkWdU8kYAI+Cd
+q9jVejvXOXiuFClySs/w7ax9e2DXoJqWUT6pDkw9w4ILCyg8N4fK5qFD1Ur4XTJl
+d+seqfgWgwKBgHHKuTf7d/Op5WFLI1x+PTu2+vhLsY73wkKr8keBw/7Tx+Wo3wk5
+ltyl5QAO/SWM1zzgm2ILH9FsnAKGozSelcKuq5r9uVxuNI8EBfkqHuUJ1lnpz8LS
+L9WpCJjj0TpcbVgHfKR3axm4Q8gmp6Okve3SE/sn7pS9NIfTLXsj97kNAoGACh0X
+1fwyfdOL59/4rIJVn6hyo8ui/c6qGIg0FjS71m6gVOs6oDBwfHsDRFyD8UduTmdW
+RuclVAAmWME1IrvubAX7FW+C0k8i2neeBUf+K+g+5YDEIjBi2Eqfttkcl6dzx+/2
+81KMZnJcji21rFN7XV7oPcNNq++p6E96zNmJZ/ECgYAxGmFG6lsuLc2JsmHRZS6k
+SsdxfEeKpMKGhNozE4bratNOMiq5oA/kPsX15MMf1vtMRgYnWYG0Y2OAr7aBbsiC
+7Rbeus2ax5q2m33PQSyp7yVjOUPste9SmSXxeizzDVTVEDBUfwasgsk88SdH7RPd
+DManTY7vjcvzMOZKAvWcug==
+-----END PRIVATE KEY-----";
+
+const RSA_PUBLIC_PEM: &str = "-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnCsLvq4lBBNi66ZN2A1j
+BQS+ISExr/oM2fYUuIJ4vHGrGp93RUTYXROviswXBGDNckeJZRrr6/Ps3CnLu9Bp
+aGPT5bPgBG2LMsUI1oldyMZC3+qDiKKD7HdHWyTxcMxcyjpgOamLwni86cSBFL9E
+pyI1czcWzwdESzIBabw7MqE10CYKqrNANhL65iKV5C6hGVPrLUCVcvVH528n2h/x
+Ymbbk8vdjop2KbcHdJA2u8cYbxOUQIPBZ1ehMCNd0Ez0BU7LN5NfltqFknTX/GJL
+BqL6M91Zf55qRP6Jij2XYXE5KPfpwP+8JK11BO0MDED0+1mfIcCZ8Pcn5ZdcFMHr
+HwIDAQAB
+-----END PUBLIC KEY-----";
+
 /// Baseline: HMAC round-trip must actually work end to end, not just
 /// reject bad input.
 #[test]
@@ -59,6 +98,23 @@ fn ec_round_trip_succeeds() {
 
     let key =
         AsymmetricKey::from_ec_pem(EC_PUBLIC_PEM.as_bytes(), AsymmetricAlgorithm::ES256).unwrap();
+    let decoded: Claims = key.verify(&token).expect("valid token must verify");
+    assert_eq!(decoded, claims);
+}
+
+/// Baseline: RSA (RS256) round-trip must also actually work end to end.
+#[test]
+fn rsa_round_trip_succeeds() {
+    let claims = Claims { sub: "carol".into(), exp: future_exp() };
+    let token = encode(
+        &Header::new(jsonwebtoken::Algorithm::RS256),
+        &claims,
+        &EncodingKey::from_rsa_pem(RSA_PRIVATE_PEM.as_bytes()).unwrap(),
+    )
+    .unwrap();
+
+    let key = AsymmetricKey::from_rsa_pem(RSA_PUBLIC_PEM.as_bytes(), AsymmetricAlgorithm::RS256)
+        .unwrap();
     let decoded: Claims = key.verify(&token).expect("valid token must verify");
     assert_eq!(decoded, claims);
 }
