@@ -1,0 +1,10 @@
+/target
+Cargo.lock
+*.so
+*.pyd
+__pycache__/
+*.egg-info/
+.venv/
+dist/
+build/
+.DS_Store
