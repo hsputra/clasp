@@ -42,6 +42,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build wheels
         uses: PyO3/maturin-action@v1
+        env:
+          # ring's pregenerated ARM assembly requires __ARM_ARCH to be
+          # defined; the manylinux aarch64 cross-gcc doesn't set it by
+          # default. https://github.com/briansmith/ring/issues/1555
+          CFLAGS_aarch64_unknown_linux_gnu: -D__ARM_ARCH=8
         with:
           target: ${{ matrix.target }}
           args: ${{ matrix.args }}
