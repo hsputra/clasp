@@ -14,6 +14,17 @@ pub enum ClaspError {
     AlgorithmKeyMismatch { algorithm: &'static str, expected_family: &'static str },
     /// The key material itself couldn't be parsed (bad PEM, wrong format).
     InvalidKey(jsonwebtoken::errors::Error),
+    /// Fetching or parsing the JWKS document itself failed (network error,
+    /// non-2xx response, invalid JSON/JWKS shape).
+    JwksFetch(String),
+    /// The token's header has no `kid` claim, so it can't be matched
+    /// against a JWKS at all.
+    MissingKeyId,
+    /// The token's `kid` doesn't match any key in the JWKS, even after one
+    /// forced refresh (handles the common key-rotation case: a cached JWKS
+    /// predates a newly-rotated-in key). If it's still not found after a
+    /// refresh, the kid is genuinely unknown or the token is bogus.
+    UnknownKeyId(String),
 }
 
 impl fmt::Display for ClaspError {
@@ -25,6 +36,11 @@ impl fmt::Display for ClaspError {
                 "algorithm {algorithm} is not valid for a {expected_family} key"
             ),
             ClaspError::InvalidKey(e) => write!(f, "invalid key material: {e}"),
+            ClaspError::JwksFetch(msg) => write!(f, "failed to fetch/parse JWKS: {msg}"),
+            ClaspError::MissingKeyId => write!(f, "token has no \"kid\" header claim"),
+            ClaspError::UnknownKeyId(kid) => {
+                write!(f, "no key with kid \"{kid}\" found in JWKS (even after refresh)")
+            }
         }
     }
 }

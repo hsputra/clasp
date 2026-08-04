@@ -1,24 +1,34 @@
 mod algorithm;
 mod error;
+mod jwks;
 mod key;
 
 pub use algorithm::{AsymmetricAlgorithm, SymmetricAlgorithm};
 pub use error::ClaspError;
+pub use jwks::JwksClient;
 pub use key::{AsymmetricKey, SymmetricKey};
 
 #[cfg(feature = "python")]
 mod python {
+    use std::time::Duration;
+
     use pyo3::exceptions::{PyRuntimeError, PyValueError};
     use pyo3::prelude::*;
     use serde_json::Value;
 
-    use crate::{AsymmetricAlgorithm, AsymmetricKey, ClaspError, SymmetricAlgorithm, SymmetricKey};
+    use crate::{
+        AsymmetricAlgorithm, AsymmetricKey, ClaspError, JwksClient, SymmetricAlgorithm,
+        SymmetricKey,
+    };
 
     fn to_py_err(e: ClaspError) -> PyErr {
         match e {
             ClaspError::AlgorithmKeyMismatch { .. } => PyValueError::new_err(e.to_string()),
             ClaspError::InvalidKey(_) => PyValueError::new_err(e.to_string()),
             ClaspError::Verification(_) => PyRuntimeError::new_err(e.to_string()),
+            ClaspError::JwksFetch(_) => PyRuntimeError::new_err(e.to_string()),
+            ClaspError::MissingKeyId => PyValueError::new_err(e.to_string()),
+            ClaspError::UnknownKeyId(_) => PyValueError::new_err(e.to_string()),
         }
     }
 
@@ -85,10 +95,36 @@ mod python {
         }
     }
 
+    /// Fetches and caches a JWKS document, verifying tokens by matching
+    /// their `kid` header claim against it -- the standard way OIDC/
+    /// Auth0/Cognito-style providers publish rotating public keys.
+    #[pyclass(name = "JwksClient")]
+    struct PyJwksClient(JwksClient);
+
+    #[pymethods]
+    impl PyJwksClient {
+        #[new]
+        #[pyo3(signature = (url, ttl_seconds=300))]
+        fn new(url: &str, ttl_seconds: u64) -> Self {
+            Self(JwksClient::new(url).with_ttl(Duration::from_secs(ttl_seconds)))
+        }
+
+        fn verify(&self, py: Python<'_>, token: &str, algorithm: &str) -> PyResult<String> {
+            let alg = parse_asymmetric(algorithm)?;
+            // Network I/O -- release the GIL while fetching/verifying so it
+            // doesn't block other Python threads.
+            py.allow_threads(|| {
+                let claims: Value = self.0.verify(token, alg).map_err(to_py_err)?;
+                Ok(claims.to_string())
+            })
+        }
+    }
+
     #[pymodule]
     fn clasp(_py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
         m.add_class::<PySymmetricKey>()?;
         m.add_class::<PyAsymmetricKey>()?;
+        m.add_class::<PyJwksClient>()?;
         Ok(())
     }
 }
