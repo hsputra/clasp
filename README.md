@@ -1,5 +1,7 @@
 # Clasp
 
+[![CI](https://github.com/hsputra/clasp/actions/workflows/ci.yml/badge.svg)](https://github.com/hsputra/clasp/actions/workflows/ci.yml)
+
 Fast, type-safe JWT/JWKS verification for Python — written in Rust.
 
 ## Why
