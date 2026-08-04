@@ -67,6 +67,14 @@ BqL6M91Zf55qRP6Jij2XYXE5KPfpwP+8JK11BO0MDED0+1mfIcCZ8Pcn5ZdcFMHr
 HwIDAQAB
 -----END PUBLIC KEY-----";
 
+const ED_PRIVATE_PEM: &str = "-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIKn5UftjznXsXYsRUxwdBl7Axy5qoyFgzcSNzR0FCAEf
+-----END PRIVATE KEY-----";
+
+const ED_PUBLIC_PEM: &str = "-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAPxFpfAvzoKhzcH8o5Cj1ULbzqW5EepDlQkXdLeuQcV4=
+-----END PUBLIC KEY-----";
+
 /// Baseline: HMAC round-trip must actually work end to end, not just
 /// reject bad input.
 #[test]
@@ -98,6 +106,25 @@ fn ec_round_trip_succeeds() {
 
     let key =
         AsymmetricKey::from_ec_pem(EC_PUBLIC_PEM.as_bytes(), AsymmetricAlgorithm::ES256).unwrap();
+    let decoded: Claims = key.verify(&token).expect("valid token must verify");
+    assert_eq!(decoded, claims);
+}
+
+/// Baseline: Ed25519 (EdDSA) round-trip must also actually work end to end
+/// -- completes round-trip coverage for all three AsymmetricKey families
+/// (RSA/EC/Ed), not just construction-time validation.
+#[test]
+fn ed25519_round_trip_succeeds() {
+    let claims = Claims { sub: "dave".into(), exp: future_exp() };
+    let token = encode(
+        &Header::new(jsonwebtoken::Algorithm::EdDSA),
+        &claims,
+        &EncodingKey::from_ed_pem(ED_PRIVATE_PEM.as_bytes()).unwrap(),
+    )
+    .unwrap();
+
+    let key =
+        AsymmetricKey::from_ed_pem(ED_PUBLIC_PEM.as_bytes(), AsymmetricAlgorithm::EdDSA).unwrap();
     let decoded: Claims = key.verify(&token).expect("valid token must verify");
     assert_eq!(decoded, claims);
 }
