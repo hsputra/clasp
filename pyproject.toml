@@ -3,11 +3,31 @@ requires = ["maturin>=1.5,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "clasp"
+# Published as "clasp-jwt" -- "clasp" belongs to an existing, unrelated
+# PyPI package. Importable name stays "clasp" regardless (see
+# [tool.maturin] module-name below), same pattern as
+# `pip install beautifulsoup4` -> `import bs4`.
+name = "clasp-jwt"
 version = "0.1.0"
 description = "Fast, type-safe JWT/JWKS verification for Python, in Rust"
+readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT OR Apache-2.0" }
+authors = [{ name = "Henry Syahputra", email = "henry.syahputra@gmail.com" }]
+keywords = ["jwt", "jwks", "jose", "auth", "authentication", "rust"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+]
+
+[project.urls]
+Repository = "https://github.com/hsputra/clasp"
 
 [tool.maturin]
 features = ["python"]
+module-name = "clasp"

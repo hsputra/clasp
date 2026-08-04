@@ -1,10 +1,19 @@
 [package]
-name = "clasp"
+# Published to crates.io as "clasp-jwt" -- "clasp" is permanently reserved
+# (a yanked crate; crates.io does not free names after yanking) and
+# "clasp-rs" is taken by an unrelated CLI-parsing library. The repo/brand
+# name and the actual importable module name both stay "clasp" (see [lib]
+# below and pyproject.toml) -- only the registry-facing publish name has
+# the suffix, same pattern as Husk's "husk-rs"/"husk-md".
+name = "clasp-jwt"
 version = "0.1.0"
 edition = "2021"
 description = "Fast, type-safe JWT/JWKS verification for Python, in Rust"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/hsputra/clasp"
+readme = "README.md"
+keywords = ["jwt", "jwks", "jose", "auth", "authentication"]
+categories = ["authentication", "cryptography"]
 
 [lib]
 name = "clasp"
