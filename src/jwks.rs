@@ -58,20 +58,39 @@ impl JwksClient {
         token: &str,
         algorithm: AsymmetricAlgorithm,
     ) -> Result<T, ClaspError> {
-        let header = decode_header(token).map_err(ClaspError::Verification)?;
-        let kid = header.kid.ok_or(ClaspError::MissingKeyId)?;
-
-        if self.cache_is_stale() {
-            self.refresh()?;
-        }
-        if let Some(claims) = self.try_verify(&kid, token, algorithm)? {
+        if let Some(claims) = self.verify_cached(token, algorithm)? {
             return Ok(claims);
         }
 
-        // kid not found in the current cache -- refresh once (key rotation)
-        // and retry before concluding the kid is genuinely unknown.
+        // Cache was stale, or the kid wasn't found in it (possibly a
+        // legitimate key rotation) -- refresh once and retry before
+        // concluding the token is bad.
+        let header = decode_header(token).map_err(ClaspError::Verification)?;
+        let kid = header.kid.ok_or(ClaspError::MissingKeyId)?;
         self.refresh()?;
         self.try_verify(&kid, token, algorithm)?.ok_or(ClaspError::UnknownKeyId(kid))
+    }
+
+    /// Verifies `token` using *only* the current cache -- never performs
+    /// network I/O, and returns `Ok(None)` (not an error) if the cache is
+    /// stale or doesn't contain the token's `kid`, signaling "try the full
+    /// `verify()` instead." Exists so callers with their own I/O/threading
+    /// model (e.g. the Python bindings, which only need to release the GIL
+    /// when a real network fetch might happen) can take the fast,
+    /// no-syscall path on a cache hit without paying for that unconditionally.
+    pub fn verify_cached<T: DeserializeOwned>(
+        &self,
+        token: &str,
+        algorithm: AsymmetricAlgorithm,
+    ) -> Result<Option<T>, ClaspError> {
+        if self.cache_is_stale() {
+            return Ok(None);
+        }
+        let header = decode_header(token).map_err(ClaspError::Verification)?;
+        let Some(kid) = header.kid else {
+            return Err(ClaspError::MissingKeyId);
+        };
+        self.try_verify(&kid, token, algorithm)
     }
 
     fn cache_is_stale(&self) -> bool {

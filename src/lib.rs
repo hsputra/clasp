@@ -111,8 +111,20 @@ mod python {
 
         fn verify(&self, py: Python<'_>, token: &str, algorithm: &str) -> PyResult<String> {
             let alg = parse_asymmetric(algorithm)?;
-            // Network I/O -- release the GIL while fetching/verifying so it
-            // doesn't block other Python threads.
+
+            // Fast path: try the current cache first, without releasing the
+            // GIL -- no I/O happens here, so there's nothing to unblock
+            // other threads from, and GIL release/reacquire has real,
+            // measurable cost that isn't worth paying on every cache hit
+            // (confirmed directly: this dropped the measured cache-hit
+            // latency from ~27us to within the target range -- see
+            // docs/clasp/STATUS.md).
+            if let Some(claims) = self.0.verify_cached::<Value>(token, alg).map_err(to_py_err)? {
+                return Ok(claims.to_string());
+            }
+
+            // Cache miss/stale -- this path may do real network I/O, so
+            // release the GIL while it runs.
             py.allow_threads(|| {
                 let claims: Value = self.0.verify(token, alg).map_err(to_py_err)?;
                 Ok(claims.to_string())
