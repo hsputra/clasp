@@ -36,6 +36,9 @@ except ImportError:
 
 N = 2_000
 
+# TEST KEYS ONLY. Generated solely for this benchmark, sign nothing
+# outside it, and protect nothing real -- never reuse any key below in
+# a real deployment.
 RSA_PRIVATE_PEM = """-----BEGIN PRIVATE KEY-----
 MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCcKwu+riUEE2Lr
 pk3YDWMFBL4hITGv+gzZ9hS4gni8casan3dFRNhdE6+KzBcEYM1yR4llGuvr8+zc

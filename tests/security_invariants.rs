@@ -17,6 +17,9 @@ fn future_exp() -> usize {
     4_102_444_800 // 2100-01-01T00:00:00Z
 }
 
+// TEST KEYS ONLY. Generated solely for this test suite, sign nothing
+// outside it, and protect nothing real -- never reuse any key below in
+// a real deployment.
 const EC_PRIVATE_PEM: &str = "-----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgh3P9zwNro7SElB6q
 jr7LWhT8YDvQpzBVJDDMreMBKoGhRANCAAQOxGAkIYc1+dPwtMKUb5F3ABGK3nF2

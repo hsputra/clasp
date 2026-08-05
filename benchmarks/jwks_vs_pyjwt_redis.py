@@ -20,6 +20,9 @@ import jwt
 import redis
 
 KID = "bench-key"
+# TEST KEY ONLY. Generated solely for this benchmark, signs nothing
+# outside it, and protects nothing real -- never reuse in a real
+# deployment.
 EC_PRIVATE_PEM = b"""-----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgh3P9zwNro7SElB6q
 jr7LWhT8YDvQpzBVJDDMreMBKoGhRANCAAQOxGAkIYc1+dPwtMKUb5F3ABGK3nF2
