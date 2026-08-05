@@ -1,6 +1,10 @@
 # Clasp
 
 [![CI](https://github.com/hsputra/clasp/actions/workflows/ci.yml/badge.svg)](https://github.com/hsputra/clasp/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/clasp-jwt.svg)](https://crates.io/crates/clasp-jwt)
+[![PyPI](https://img.shields.io/pypi/v/clasp-jwt.svg)](https://pypi.org/project/clasp-jwt/)
+[![docs.rs](https://img.shields.io/docsrs/clasp-jwt)](https://docs.rs/clasp-jwt)
+[![License](https://img.shields.io/crates/l/clasp-jwt.svg)](#license)
 
 Fast, type-safe JWT/JWKS verification for Python — written in Rust.
 
