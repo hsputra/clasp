@@ -1,3 +1,23 @@
+//! Fast, type-safe JWT/JWKS verification, in Rust, with Python bindings.
+//!
+//! Most JWT libraries treat algorithm choice as a runtime string
+//! comparison -- the class of bug behind real, disclosed CVEs: algorithm
+//! confusion (an RSA public key misused as an HMAC secret) and `alg=none`
+//! bypasses missed by case-sensitive checks. This crate closes that class
+//! of bug by construction instead of by convention: [`SymmetricKey`] and
+//! [`AsymmetricKey`] are distinct types, so mixing an HMAC secret with an
+//! RSA/EC/Ed25519 verification path is a compile error, and algorithm
+//! parsing ([`SymmetricAlgorithm::parse`], [`AsymmetricAlgorithm::parse`])
+//! is a strict, exact match with no silent fallback.
+//!
+//! [`JwksClient`] adds JWKS fetch/cache/key-rotation on top of the same
+//! guarantee: a JWKS response can only ever select *which key*, never
+//! *which algorithm* -- the caller always states the expected algorithm
+//! explicitly.
+//!
+//! See the [repository README](https://github.com/hsputra/clasp) for
+//! benchmarked performance numbers against PyJWT and python-jose.
+
 mod algorithm;
 mod error;
 mod jwks;

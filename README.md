@@ -16,10 +16,8 @@ Rust types, so mixing them is a compile error, not a runtime footgun.
 ## Performance
 
 All numbers below are real, measured, single-threaded benchmarks against
-the same signed token, not vendor-cited figures. The JWKS comparison's
-pure-Rust half is reproducible directly in this repo via
-[`examples/jwks_bench.rs`](examples/jwks_bench.rs); the others were
-one-off local benchmarks and aren't committed as scripts yet.
+the same signed token, not vendor-cited figures — every one of them is
+reproducible from a committed script, see [`benchmarks/`](benchmarks).
 
 | Comparison | Result |
 |---|---|
